@@ -1,0 +1,391 @@
+{% extends 'analytics/base.html' %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- Header -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold">
+
+                ⚙ Settings
+
+            </h2>
+
+            <p class="text-muted">
+
+                Configure LifeOS scoring parameters.
+
+            </p>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- Bell Curve -->
+
+    <div class="card shadow mb-4">
+
+        <div class="card-header bg-primary text-white">
+
+            <h4 class="mb-0">
+
+                Bell Curve Parameters
+
+            </h4>
+
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-bordered">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Parameter</th>
+
+                        <th>Ideal</th>
+
+                        <th>Sigma</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+
+                        <td>Wake Time</td>
+
+                        <td>4.75</td>
+
+                        <td>0.75</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Bed Time</td>
+
+                        <td>21.00</td>
+
+                        <td>0.75</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Total Sleep</td>
+
+                        <td>7.75</td>
+
+                        <td>1.00</td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- Arctangent -->
+
+    <div class="card shadow mb-4">
+
+        <div class="card-header bg-success text-white">
+
+            <h4 class="mb-0">
+
+                Arctangent Parameters
+
+            </h4>
+
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-striped">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Parameter</th>
+
+                        <th>a Value</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr><td>Yoga</td><td>20</td></tr>
+                    <tr><td>Meditation</td><td>10</td></tr>
+                    <tr><td>Gym</td><td>20</td></tr>
+                    <tr><td>Play</td><td>30</td></tr>
+
+                    <tr><td>Semester Study</td><td>4</td></tr>
+                    <tr><td>Project</td><td>1</td></tr>
+                    <tr><td>LeetCode</td><td>0.5</td></tr>
+                    <tr><td>Self Study</td><td>1</td></tr>
+
+                    <tr><td>Water</td><td>3</td></tr>
+
+                    <tr><td>Oil</td><td>1</td></tr>
+
+                    <tr><td>Bath</td><td>2</td></tr>
+
+                    <tr><td>Career Video</td><td>1</td></tr>
+
+                    <tr><td>Health Video</td><td>1</td></tr>
+
+                    <tr><td>Newspaper</td><td>10</td></tr>
+
+                    <tr><td>Typewriting</td><td>10</td></tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- Reverse Arctangent -->
+
+    <div class="card shadow mb-4">
+
+        <div class="card-header bg-warning">
+
+            <h4 class="mb-0">
+
+                Reverse Arctangent
+
+            </h4>
+
+        </div>
+
+        <div class="card-body">
+
+            <table class="table">
+
+                <tr>
+
+                    <th>Mobile</th>
+
+                    <td>4</td>
+
+                </tr>
+
+                <tr>
+
+                    <th>Expense</th>
+
+                    <td>100</td>
+
+                </tr>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- Weights -->
+
+    <div class="card shadow mb-4">
+
+        <div class="card-header bg-danger text-white">
+
+            <h4 class="mb-0">
+
+                Parameter Weights
+
+            </h4>
+
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-bordered">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Priority</th>
+
+                        <th>Weight</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+
+                        <td>High</td>
+
+                        <td>5</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Medium</td>
+
+                        <td>3</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Low</td>
+
+                        <td>1</td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- Formula Types -->
+
+    <div class="card shadow mb-4">
+
+        <div class="card-header bg-dark text-white">
+
+            <h4 class="mb-0">
+
+                Formula Types
+
+            </h4>
+
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-hover">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Formula</th>
+
+                        <th>Used For</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+
+                        <td>Bell Curve</td>
+
+                        <td>Wake Time, Bed Time, Total Sleep</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Arctangent</td>
+
+                        <td>Positive Habits</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Reverse Arctangent</td>
+
+                        <td>Mobile, Expense</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Boolean</td>
+
+                        <td>Protein, Milk, Fruits, etc.</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Reverse Boolean</td>
+
+                        <td>Maida, White Sugar</td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- About -->
+
+    <div class="card shadow">
+
+        <div class="card-body text-center">
+
+            <h4>
+
+                LifeOS v1.0
+
+            </h4>
+
+            <p>
+
+                Personal Daily Analytics System
+
+            </p>
+
+            <p class="text-muted">
+
+                Developed using Django & SQLite
+
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

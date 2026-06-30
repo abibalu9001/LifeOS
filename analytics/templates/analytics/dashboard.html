@@ -1,0 +1,403 @@
+{% extends 'analytics/base.html' %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- Header -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2 class="fw-bold">Dashboard</h2>
+            <p class="text-muted mb-0">
+                Welcome to LifeOS
+            </p>
+        </div>
+
+        <div class="text-end">
+
+            <h5>
+
+                {% now "d M Y" %}
+
+            </h5>
+
+        </div>
+
+    </div>
+
+
+    <!-- Score Cards -->
+
+    <div class="row g-4">
+
+        <div class="col-lg-4">
+
+            <div class="card shadow border-0 h-100">
+
+                <div class="card-body text-center">
+
+                    <h6 class="text-muted">
+
+                        Overall Score
+
+                    </h6>
+
+                    <h1 class="display-3 fw-bold text-primary">
+
+                        {% if record %}
+                            {{ record.overall_score|floatformat:1 }}
+                        {% else %}
+                            0
+                        {% endif %}
+
+                    </h1>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-lg-4">
+
+            <div class="card shadow border-0 h-100">
+
+                <div class="card-body text-center">
+
+                    <h6 class="text-muted">
+
+                        Study Score
+
+                    </h6>
+
+                    <h1 class="display-5 fw-bold text-success">
+
+                        {% if record %}
+                            {{ record.study_score|floatformat:1 }}
+                        {% else %}
+                            0
+                        {% endif %}
+
+                    </h1>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-lg-4">
+
+            <div class="card shadow border-0 h-100">
+
+                <div class="card-body text-center">
+
+                    <h6 class="text-muted">
+
+                        Health Score
+
+                    </h6>
+
+                    <h1 class="display-5 fw-bold text-danger">
+
+                        {% if record %}
+                            {{ record.health_score|floatformat:1 }}
+                        {% else %}
+                            0
+                        {% endif %}
+
+                    </h1>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- Category Cards -->
+
+    <div class="row mt-4 g-4">
+
+        <div class="col-md-4">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body">
+
+                    <h5>😴 Sleep</h5>
+
+                    <hr>
+
+                    <h3>
+
+                        {% if record %}
+                            {{ record.sleep_score|floatformat:1 }}
+                        {% else %}
+                            0
+                        {% endif %}
+
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body">
+
+                    <h5>🏋 Exercise</h5>
+
+                    <hr>
+
+                    <h3>
+
+                        {% if record %}
+                            {{ record.exercise_score|floatformat:1 }}
+                        {% else %}
+                            0
+                        {% endif %}
+
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body">
+
+                    <h5>🍎 Nutrition</h5>
+
+                    <hr>
+
+                    <h3>
+
+                        {% if record %}
+                            {{ record.nutrition_score|floatformat:1 }}
+                        {% else %}
+                            0
+                        {% endif %}
+
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- Today's Summary -->
+
+    <div class="card shadow mt-5">
+
+        <div class="card-header">
+
+            <h4>
+
+                Today's Summary
+
+            </h4>
+
+        </div>
+
+        <div class="card-body">
+
+            {% if record %}
+
+            <div class="row">
+
+                <div class="col-md-6">
+
+                    <table class="table">
+
+                        <tr>
+
+                            <th>Wake Time</th>
+
+                            <td>{{ record.wake_time }}</td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Bed Time</th>
+
+                            <td>{{ record.bed_time }}</td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Total Sleep</th>
+
+                            <td>{{ record.total_sleep }} hrs</td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Water</th>
+
+                            <td>{{ record.water }} L</td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Mobile</th>
+
+                            <td>{{ record.mobile }} hrs</td>
+
+                        </tr>
+
+                    </table>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <table class="table">
+
+                        <tr>
+
+                            <th>Semester Study</th>
+
+                            <td>{{ record.semester_study }} hrs</td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Project</th>
+
+                            <td>{{ record.project }} hrs</td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>LeetCode</th>
+
+                            <td>{{ record.leetcode }} hrs</td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Self Study</th>
+
+                            <td>{{ record.self_study }} hrs</td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Expense</th>
+
+                            <td>₹ {{ record.expense }}</td>
+
+                        </tr>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+            {% else %}
+
+            <div class="text-center">
+
+                <h4>
+
+                    No record found for today.
+
+                </h4>
+
+                <a href="/today/" class="btn btn-primary mt-3">
+
+                    Enter Today's Data
+
+                </a>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+
+    <!-- Quick Actions -->
+
+    <div class="row mt-5">
+
+        <div class="col-md-3">
+
+            <a href="/today/" class="btn btn-primary w-100 p-3">
+
+                📝 Today's Entry
+
+            </a>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <a href="/analytics/" class="btn btn-success w-100 p-3">
+
+                📈 Analytics
+
+            </a>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <a href="/history/" class="btn btn-warning w-100 p-3">
+
+                📅 History
+
+            </a>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <a href="/settings/" class="btn btn-dark w-100 p-3">
+
+                ⚙ Settings
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

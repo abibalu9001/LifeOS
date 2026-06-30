@@ -1,0 +1,553 @@
+{% extends 'analytics/base.html' %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold">📈 Analytics</h2>
+            <p class="text-muted">Analyze your productivity and health.</p>
+        </div>
+    </div>
+
+
+    <!-- ============================================================ -->
+    <!-- SECTION 1: Summary Stats                                      -->
+    <!-- ============================================================ -->
+
+    <div class="row g-4">
+
+        <div class="col-lg-3">
+            <div class="card shadow text-center">
+                <div class="card-body">
+                    <h6 class="text-muted">Total Days</h6>
+                    <h2>{{ total }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3">
+            <div class="card shadow text-center">
+                <div class="card-body">
+                    <h6 class="text-muted">Average Score</h6>
+                    <h2>{{ avg_score }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3">
+            <div class="card shadow text-center">
+                <div class="card-body">
+                    <h6 class="text-muted">Best Score</h6>
+                    <h2 class="text-success">{{ best_score }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3">
+            <div class="card shadow text-center">
+                <div class="card-body">
+                    <h6 class="text-muted">Worst Score</h6>
+                    <h2 class="text-danger">{{ worst_score }}</h2>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- ============================================================ -->
+    <!-- SECTION 2: Charts                                             -->
+    <!-- ============================================================ -->
+
+    <div class="row mt-4">
+        <div class="col-lg-12">
+            <div class="card shadow">
+                <div class="card-header fw-semibold">📊 Overall Score Trend</div>
+                <div class="card-body">
+                    <canvas id="overallChart" height="80"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+
+        <div class="col-lg-6">
+            <div class="card shadow">
+                <div class="card-header fw-semibold">📚 Study Score Trend</div>
+                <div class="card-body">
+                    <canvas id="studyChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card shadow">
+                <div class="card-header fw-semibold">😴 Sleep Score Trend</div>
+                <div class="card-body">
+                    <canvas id="sleepChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row mt-4">
+
+        <div class="col-lg-6">
+            <div class="card shadow">
+                <div class="card-header fw-semibold">💧 Water Intake (L)</div>
+                <div class="card-body">
+                    <canvas id="waterChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card shadow">
+                <div class="card-header fw-semibold">📱 Mobile Usage (hrs)</div>
+                <div class="card-body">
+                    <canvas id="mobileChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- ============================================================ -->
+    <!-- SECTION 3: Parameter Statistics Table                         -->
+    <!-- ============================================================ -->
+
+    <div class="card shadow mt-5">
+
+        <div class="card-header bg-primary text-white fw-semibold">
+            📋 Parameter Statistics — Average, Best Value & Best Date
+        </div>
+
+        <div class="card-body table-responsive p-0">
+
+            <table class="table table-hover table-bordered mb-0 align-middle">
+
+                <thead class="table-dark">
+                    <tr>
+                        <th>Parameter</th>
+                        <th class="text-center">Average</th>
+                        <th class="text-center">Best Value</th>
+                        <th class="text-center">Best Date</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <!-- Sleep group -->
+                    <tr class="table-primary">
+                        <td colspan="4" class="fw-bold">🌙 Sleep</td>
+                    </tr>
+                    {% for p in param_stats %}
+                        {% if p.label == "Wake Time" or p.label == "Bed Time" or p.label == "Total Sleep" %}
+                        <tr>
+                            <td>{{ p.label }}</td>
+                            <td class="text-center">{{ p.avg }} {% if p.unit %}<small class="text-muted">{{ p.unit }}</small>{% endif %}</td>
+                            <td class="text-center fw-semibold text-success">{{ p.best_val }} {% if p.unit %}<small class="text-muted">{{ p.unit }}</small>{% endif %}</td>
+                            <td class="text-center text-muted">{{ p.best_date }}</td>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+
+                    <!-- Exercise group -->
+                    <tr class="table-success">
+                        <td colspan="4" class="fw-bold">🏋 Exercise</td>
+                    </tr>
+                    {% for p in param_stats %}
+                        {% if p.label == "Yoga" or p.label == "Meditation" or p.label == "Gym" or p.label == "Play" %}
+                        <tr>
+                            <td>{{ p.label }}</td>
+                            <td class="text-center">{{ p.avg }} {% if p.unit %}<small class="text-muted">{{ p.unit }}</small>{% endif %}</td>
+                            <td class="text-center fw-semibold text-success">{{ p.best_val }} {% if p.unit %}<small class="text-muted">{{ p.unit }}</small>{% endif %}</td>
+                            <td class="text-center text-muted">{{ p.best_date }}</td>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+
+                    <!-- Study group -->
+                    <tr class="table-warning">
+                        <td colspan="4" class="fw-bold">📚 Study</td>
+                    </tr>
+                    {% for p in param_stats %}
+                        {% if p.label == "Semester Study" or p.label == "Project" or p.label == "LeetCode" or p.label == "Self Study" %}
+                        <tr>
+                            <td>{{ p.label }}</td>
+                            <td class="text-center">{{ p.avg }} {% if p.unit %}<small class="text-muted">{{ p.unit }}</small>{% endif %}</td>
+                            <td class="text-center fw-semibold text-success">{{ p.best_val }} {% if p.unit %}<small class="text-muted">{{ p.unit }}</small>{% endif %}</td>
+                            <td class="text-center text-muted">{{ p.best_date }}</td>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+
+                    <!-- Health group -->
+                    <tr class="table-info">
+                        <td colspan="4" class="fw-bold">💧 Health</td>
+                    </tr>
+                    {% for p in param_stats %}
+                        {% if p.label == "Water" or p.label == "Oil (Head)" or p.label == "Bath" or p.label == "Kayakalpam" %}
+                        <tr>
+                            <td>{{ p.label }}</td>
+                            <td class="text-center">{{ p.avg }} {% if p.unit %}<small class="text-muted">{{ p.unit }}</small>{% endif %}</td>
+                            <td class="text-center fw-semibold text-success">{{ p.best_val }} {% if p.unit %}<small class="text-muted">{{ p.unit }}</small>{% endif %}</td>
+                            <td class="text-center text-muted">{{ p.best_date }}</td>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+
+                    <!-- Lifestyle group -->
+                    <tr class="table-secondary">
+                        <td colspan="4" class="fw-bold">📱 Lifestyle & Learning</td>
+                    </tr>
+                    {% for p in param_stats %}
+                        {% if p.label == "Mobile" or p.label == "Career Video" or p.label == "Health Video" or p.label == "Newspaper" or p.label == "Typewriting" or p.label == "Expense" %}
+                        <tr>
+                            <td>{{ p.label }}</td>
+                            <td class="text-center">{{ p.avg }} {% if p.unit %}<small class="text-muted">{{ p.unit }}</small>{% endif %}</td>
+                            <td class="text-center fw-semibold text-success">{{ p.best_val }} {% if p.unit %}<small class="text-muted">{{ p.unit }}</small>{% endif %}</td>
+                            <td class="text-center text-muted">{{ p.best_date }}</td>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- ============================================================ -->
+    <!-- SECTION 4: Nutrition (Boolean) Statistics                     -->
+    <!-- ============================================================ -->
+
+    <div class="card shadow mt-4">
+
+        <div class="card-header bg-danger text-white fw-semibold">
+            🥗 Nutrition — Days Followed
+        </div>
+
+        <div class="card-body table-responsive p-0">
+
+            <table class="table table-hover table-bordered mb-0 align-middle">
+
+                <thead class="table-dark">
+                    <tr>
+                        <th>Item</th>
+                        <th class="text-center">Days Followed</th>
+                        <th class="text-center">% of {{ total }} Days</th>
+                        <th style="min-width:200px">Progress</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                {% for b in bool_stats %}
+                    <tr>
+                        <td>{{ b.label }}</td>
+                        <td class="text-center fw-bold">{{ b.count }}</td>
+                        <td class="text-center">{{ b.pct }}%</td>
+                        <td>
+                            <div class="progress" style="height:10px;">
+                                <div
+                                    class="progress-bar {% if b.label == 'Maida' or b.label == 'White Sugar' %}bg-danger{% else %}bg-success{% endif %}"
+                                    style="width:{{ b.pct }}%;">
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- ============================================================ -->
+    <!-- SECTION 5: Full Data Table (all entries, all fields)          -->
+    <!-- ============================================================ -->
+
+    <div class="card shadow mt-4">
+
+        <div class="card-header bg-dark text-white fw-semibold">
+            📅 All Entries — Complete Data
+        </div>
+
+        <div class="card-body table-responsive p-0">
+
+            <table class="table table-sm table-striped table-bordered mb-0 align-middle" style="font-size:0.82rem; min-width:1600px;">
+
+                <thead class="table-dark sticky-top">
+                    <tr>
+                        <!-- Date + Scores -->
+                        <th rowspan="2" class="align-middle">Date</th>
+                        <th colspan="6" class="text-center border-start">Scores</th>
+                        <!-- Sleep -->
+                        <th colspan="3" class="text-center border-start bg-primary bg-opacity-50">Sleep</th>
+                        <!-- Exercise -->
+                        <th colspan="4" class="text-center border-start bg-success bg-opacity-50">Exercise</th>
+                        <!-- Study -->
+                        <th colspan="4" class="text-center border-start bg-warning bg-opacity-50">Study</th>
+                        <!-- Health -->
+                        <th colspan="4" class="text-center border-start bg-info bg-opacity-50">Health</th>
+                        <!-- Lifestyle -->
+                        <th colspan="6" class="text-center border-start bg-secondary bg-opacity-50">Lifestyle</th>
+                        <!-- Nutrition -->
+                        <th colspan="7" class="text-center border-start bg-danger bg-opacity-50">Nutrition</th>
+                    </tr>
+                    <tr>
+                        <!-- Sub-headers: Scores -->
+                        <th class="border-start">Overall</th>
+                        <th>Sleep</th>
+                        <th>Exercise</th>
+                        <th>Study</th>
+                        <th>Health</th>
+                        <th>Lifestyle</th>
+                        <!-- Sleep -->
+                        <th class="border-start">Wake</th>
+                        <th>Bed</th>
+                        <th>Sleep(h)</th>
+                        <!-- Exercise -->
+                        <th class="border-start">Yoga</th>
+                        <th>Med.</th>
+                        <th>Gym</th>
+                        <th>Play</th>
+                        <!-- Study -->
+                        <th class="border-start">Semester</th>
+                        <th>Project</th>
+                        <th>LC</th>
+                        <th>Self</th>
+                        <!-- Health -->
+                        <th class="border-start">Water</th>
+                        <th>Oil</th>
+                        <th>Bath</th>
+                        <th>Kaya.</th>
+                        <!-- Lifestyle -->
+                        <th class="border-start">Mobile</th>
+                        <th>Career V.</th>
+                        <th>Health V.</th>
+                        <th>News</th>
+                        <th>Type</th>
+                        <th>Expense</th>
+                        <!-- Nutrition -->
+                        <th class="border-start">Pro.</th>
+                        <th>Milk</th>
+                        <th>Fruits</th>
+                        <th>Amla</th>
+                        <th>Sabja</th>
+                        <th>Maida</th>
+                        <th>Sugar</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                {% for r in records %}
+                    <tr>
+                        <td class="fw-semibold">{{ r.date }}</td>
+
+                        <!-- Scores -->
+                        <td class="border-start fw-bold
+                            {% if r.overall_score >= 80 %}text-success
+                            {% elif r.overall_score >= 60 %}text-warning
+                            {% else %}text-danger{% endif %}">
+                            {{ r.overall_score }}
+                        </td>
+                        <td>{{ r.sleep_score }}</td>
+                        <td>{{ r.exercise_score }}</td>
+                        <td>{{ r.study_score }}</td>
+                        <td>{{ r.health_score }}</td>
+                        <td>{{ r.lifestyle_score }}</td>
+
+                        <!-- Sleep -->
+                        <td class="border-start">{{ r.wake_time|default:"—" }}</td>
+                        <td>{{ r.bed_time|default:"—" }}</td>
+                        <td>{{ r.total_sleep }}</td>
+
+                        <!-- Exercise -->
+                        <td class="border-start">{{ r.yoga }}</td>
+                        <td>{{ r.meditation }}</td>
+                        <td>{{ r.gym }}</td>
+                        <td>{{ r.play }}</td>
+
+                        <!-- Study -->
+                        <td class="border-start">{{ r.semester_study }}</td>
+                        <td>{{ r.project }}</td>
+                        <td>{{ r.leetcode }}</td>
+                        <td>{{ r.self_study }}</td>
+
+                        <!-- Health -->
+                        <td class="border-start">{{ r.water }}</td>
+                        <td>{{ r.oil }}</td>
+                        <td>{{ r.bath }}</td>
+                        <td>{{ r.kayakalpam }}</td>
+
+                        <!-- Lifestyle -->
+                        <td class="border-start">{{ r.mobile }}</td>
+                        <td>{{ r.career_video }}</td>
+                        <td>{{ r.health_video }}</td>
+                        <td>{{ r.newspaper }}</td>
+                        <td>{{ r.typewriting }}</td>
+                        <td>₹{{ r.expense }}</td>
+
+                        <!-- Nutrition -->
+                        <td class="border-start text-center">{% if r.protein %}✅{% else %}❌{% endif %}</td>
+                        <td class="text-center">{% if r.milk %}✅{% else %}❌{% endif %}</td>
+                        <td class="text-center">{% if r.fruits %}✅{% else %}❌{% endif %}</td>
+                        <td class="text-center">{% if r.amla_juice %}✅{% else %}❌{% endif %}</td>
+                        <td class="text-center">{% if r.sabja_badam %}✅{% else %}❌{% endif %}</td>
+                        <td class="text-center">{% if r.maida %}⚠️{% else %}✅{% endif %}</td>
+                        <td class="text-center">{% if r.white_sugar %}⚠️{% else %}✅{% endif %}</td>
+
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="35" class="text-center text-muted py-4">No records found.</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- ============================================================ -->
+    <!-- SECTION 6: Best Days (by overall score)                       -->
+    <!-- ============================================================ -->
+
+    <div class="card shadow mt-4">
+
+        <div class="card-header fw-semibold">🏆 Best Days (by Overall Score)</div>
+
+        <div class="card-body table-responsive p-0">
+
+            <table class="table table-hover mb-0">
+
+                <thead class="table-dark">
+                    <tr>
+                        <th>#</th>
+                        <th>Date</th>
+                        <th>Overall Score</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                {% for r in records|dictsortreversed:"overall_score" %}
+                    <tr>
+                        <td class="text-muted">{{ forloop.counter }}</td>
+                        <td>{{ r.date }}</td>
+                        <td>
+                            <span class="badge
+                                {% if r.overall_score >= 80 %}bg-success
+                                {% elif r.overall_score >= 60 %}bg-warning text-dark
+                                {% else %}bg-danger{% endif %}">
+                                {{ r.overall_score }}
+                            </span>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr><td colspan="3" class="text-center">No records yet.</td></tr>
+                {% endfor %}
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ChartJS -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+    const labels      = {{ dates_json|safe }};
+    const overallData = {{ overall_json|safe }};
+    const studyData   = {{ study_json|safe }};
+    const sleepData   = {{ sleep_json|safe }};
+    const waterData   = {{ water_json|safe }};
+    const mobileData  = {{ mobile_json|safe }};
+
+    function makeChart(id, label, data, color) {
+        const ctx = document.getElementById(id);
+        if (!ctx) return;
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: label,
+                    data: data,
+                    borderColor: color,
+                    backgroundColor: color + '22',
+                    borderWidth: 2,
+                    tension: 0.3,
+                    fill: true,
+                    pointRadius: 4,
+                    pointHoverRadius: 6,
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false }, tooltip: { mode: 'index', intersect: false } },
+                scales: {
+                    y: { min: 0, max: 100, grid: { color: '#e9ecef' } },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+    }
+
+    function makeBarChart(id, label, data, color) {
+        const ctx = document.getElementById(id);
+        if (!ctx) return;
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: label,
+                    data: data,
+                    backgroundColor: color + '99',
+                    borderColor: color,
+                    borderWidth: 1,
+                    borderRadius: 4,
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { min: 0, grid: { color: '#e9ecef' } },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+    }
+
+    makeChart('overallChart', 'Overall Score', overallData, '#0d6efd');
+    makeChart('studyChart',   'Study Score',   studyData,   '#198754');
+    makeChart('sleepChart',   'Sleep Score',   sleepData,   '#6f42c1');
+    makeBarChart('waterChart',  'Water (L)',    waterData,   '#0dcaf0');
+    makeBarChart('mobileChart', 'Mobile (hrs)', mobileData,  '#dc3545');
+
+</script>
+
+{% endblock %}

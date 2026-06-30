@@ -1,0 +1,716 @@
+{% extends 'analytics/base.html' %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2 class="fw-bold">
+                Today's Entry
+            </h2>
+
+            <p class="text-muted">
+                Record today's activities and habits.
+            </p>
+        </div>
+
+        <div>
+            <h5>{% now "d M Y" %}</h5>
+        </div>
+
+    </div>
+
+    <!-- Form Starts -->
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <!-- ========================================== -->
+        <!-- Sleep -->
+        <!-- ========================================== -->
+
+        <div class="card shadow-sm mb-4">
+
+            <div class="card-header bg-primary text-white">
+
+                <h4 class="mb-0">
+                    🌙 Sleep
+                </h4>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="row">
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            Wake Time
+                        </label>
+
+                        <input
+                            type="time"
+                            name="wake_time"
+                            class="form-control"
+                            value="{% if record %}{{ record.wake_time|time:'H:i' }}{% endif %}"
+                        >
+
+                    </div>
+
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            Bed Time
+                        </label>
+
+                        <input
+                            type="time"
+                            name="bed_time"
+                            class="form-control"
+                            value="{% if record %}{{ record.bed_time|time:'H:i' }}{% endif %}"
+                        >
+
+                    </div>
+
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            Total Sleep (hrs)
+                        </label>
+
+                        <input
+                            type="number"
+                            step="0.25"
+                            min="0"
+                            name="total_sleep"
+                            class="form-control"
+                            value="{% if record %}{{ record.total_sleep }}{% endif %}"
+                        >
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ========================================== -->
+        <!-- Exercise -->
+        <!-- ========================================== -->
+
+        <div class="card shadow-sm mb-4">
+
+            <div class="card-header bg-success text-white">
+
+                <h4 class="mb-0">
+                    🏋 Exercise
+                </h4>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="row">
+
+                    <div class="col-md-3">
+
+                        <label class="form-label">
+                            Yoga (min)
+                        </label>
+
+                        <input
+                            type="number"
+                            min="0"
+                            name="yoga"
+                            class="form-control"
+                            value="{% if record %}{{ record.yoga }}{% endif %}"
+                        >
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <label class="form-label">
+                            Meditation (min)
+                        </label>
+
+                        <input
+                            type="number"
+                            min="0"
+                            name="meditation"
+                            class="form-control"
+                            value="{% if record %}{{ record.meditation }}{% endif %}"
+                        >
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <label class="form-label">
+                            Gym (min)
+                        </label>
+
+                        <input
+                            type="number"
+                            min="0"
+                            name="gym"
+                            class="form-control"
+                            value="{% if record %}{{ record.gym }}{% endif %}"
+                        >
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <label class="form-label">
+                            Play (min)
+                        </label>
+
+                        <input
+                            type="number"
+                            min="0"
+                            name="play"
+                            class="form-control"
+                            value="{% if record %}{{ record.play }}{% endif %}"
+                        >
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ========================================== -->
+        <!-- Study -->
+        <!-- ========================================== -->
+
+        <div class="card shadow-sm mb-4">
+
+            <div class="card-header bg-warning text-dark">
+
+                <h4 class="mb-0">
+                    📚 Study
+                </h4>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="row">
+
+                    <div class="col-md-3">
+
+                        <label class="form-label">
+                            Semester Study (hrs)
+                        </label>
+
+                        <input
+                            type="number"
+                            step="0.25"
+                            min="0"
+                            name="semester_study"
+                            class="form-control"
+                            value="{% if record %}{{ record.semester_study }}{% endif %}"
+                        >
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <label class="form-label">
+                            Project (hrs)
+                        </label>
+
+                        <input
+                            type="number"
+                            step="0.25"
+                            min="0"
+                            name="project"
+                            class="form-control"
+                            value="{% if record %}{{ record.project }}{% endif %}"
+                        >
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <label class="form-label">
+                            LeetCode (hrs)
+                        </label>
+
+                        <input
+                            type="number"
+                            step="0.25"
+                            min="0"
+                            name="leetcode"
+                            class="form-control"
+                            value="{% if record %}{{ record.leetcode }}{% endif %}"
+                        >
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <label class="form-label">
+                            Self Study (hrs)
+                        </label>
+
+                        <input
+                            type="number"
+                            step="0.25"
+                            min="0"
+                            name="self_study"
+                            class="form-control"
+                            value="{% if record %}{{ record.self_study }}{% endif %}"
+                        >
+
+                    </div>
+
+                </div>
+
+                <div class="mt-3">
+                    <span class="text-muted">Total Study: </span>
+                    <strong><span id="totalStudy">
+                        {% if record %}
+                            {{ record.semester_study|add:record.project|add:record.leetcode|add:record.self_study }} hrs
+                        {% else %}
+                            0.00 hrs
+                        {% endif %}
+                    </span></strong>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ========================================== -->
+        <!-- Nutrition -->
+        <!-- ========================================== -->
+
+        <div class="card shadow-sm mb-4">
+
+            <div class="card-header bg-danger text-white">
+
+                <h4 class="mb-0">
+                    🥗 Nutrition
+                </h4>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="row">
+
+                    <div class="col-md-4">
+
+                        <div class="form-check mb-3">
+
+                            <input
+                                class="form-check-input"
+                                type="checkbox"
+                                name="protein"
+                                {% if record and record.protein %}checked{% endif %}
+                            >
+
+                            <label class="form-check-label">
+                                Protein
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <div class="form-check mb-3">
+
+                            <input
+                                class="form-check-input"
+                                type="checkbox"
+                                name="milk"
+                                {% if record and record.milk %}checked{% endif %}
+                            >
+
+                            <label class="form-check-label">
+                                Milk
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <div class="form-check mb-3">
+
+                            <input
+                                class="form-check-input"
+                                type="checkbox"
+                                name="fruits"
+                                {% if record and record.fruits %}checked{% endif %}
+                            >
+
+                            <label class="form-check-label">
+                                Fruits
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <div class="form-check mb-3">
+
+                            <input
+                                class="form-check-input"
+                                type="checkbox"
+                                name="amla_juice"
+                                {% if record and record.amla_juice %}checked{% endif %}
+                            >
+
+                            <label class="form-check-label">
+                                Amla Juice
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <div class="form-check mb-3">
+
+                            <input
+                                class="form-check-input"
+                                type="checkbox"
+                                name="sabja_badam"
+                                {% if record and record.sabja_badam %}checked{% endif %}
+                            >
+
+                            <label class="form-check-label">
+                                Sabja + Badam Pisin
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <div class="form-check mb-3">
+
+                            <input
+                                class="form-check-input"
+                                type="checkbox"
+                                name="maida"
+                                {% if record and record.maida %}checked{% endif %}
+                            >
+
+                            <label class="form-check-label text-danger">
+                                Maida
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <div class="form-check">
+
+                            <input
+                                class="form-check-input"
+                                type="checkbox"
+                                name="white_sugar"
+                                {% if record and record.white_sugar %}checked{% endif %}
+                            >
+
+                            <label class="form-check-label text-danger">
+                                White Sugar
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ========================================== -->
+        <!-- Health -->
+        <!-- ========================================== -->
+
+        <div class="card shadow-sm mb-4">
+
+            <div class="card-header bg-info text-white">
+
+                <h4 class="mb-0">
+                    💧 Health
+                </h4>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="row">
+
+                    <div class="col-md-3">
+
+                        <label class="form-label">
+                            Water (L)
+                        </label>
+
+                        <input
+                            type="number"
+                            step="0.25"
+                            min="0"
+                            name="water"
+                            class="form-control"
+                            value="{% if record %}{{ record.water }}{% endif %}"
+                        >
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <label class="form-label">
+                            Oiling Head
+                        </label>
+
+                        <input
+                            type="number"
+                            min="0"
+                            name="oil"
+                            class="form-control"
+                            value="{% if record %}{{ record.oil }}{% endif %}"
+                        >
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <label class="form-label">
+                            Bath
+                        </label>
+
+                        <input
+                            type="number"
+                            min="0"
+                            name="bath"
+                            class="form-control"
+                            value="{% if record %}{{ record.bath }}{% endif %}"
+                        >
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <label class="form-label">
+                            Kayakalpam
+                        </label>
+
+                        <input
+                            type="number"
+                            min="0"
+                            name="kayakalpam"
+                            class="form-control"
+                            value="{% if record %}{{ record.kayakalpam }}{% endif %}"
+                        >
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ========================================== -->
+        <!-- Lifestyle -->
+        <!-- ========================================== -->
+
+        <div class="card shadow-sm mb-4">
+
+            <div class="card-header bg-secondary text-white">
+
+                <h4 class="mb-0">
+                    📱 Lifestyle
+                </h4>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="row">
+
+                    <div class="col-md-3">
+
+                        <label class="form-label">
+                            Mobile (hrs)
+                        </label>
+
+                        <input
+                            type="number"
+                            step="0.25"
+                            min="0"
+                            name="mobile"
+                            class="form-control"
+                            value="{% if record %}{{ record.mobile }}{% endif %}"
+                        >
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <label class="form-label">
+                            Career Video (min)
+                        </label>
+
+                        <input
+                            type="number"
+                            min="0"
+                            name="career_video"
+                            class="form-control"
+                            value="{% if record %}{{ record.career_video }}{% endif %}"
+                        >
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <label class="form-label">
+                            Health Video (min)
+                        </label>
+
+                        <input
+                            type="number"
+                            min="0"
+                            name="health_video"
+                            class="form-control"
+                            value="{% if record %}{{ record.health_video }}{% endif %}"
+                        >
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <label class="form-label">
+                            Newspaper (min)
+                        </label>
+
+                        <input
+                            type="number"
+                            min="0"
+                            name="newspaper"
+                            class="form-control"
+                            value="{% if record %}{{ record.newspaper }}{% endif %}"
+                        >
+
+                    </div>
+
+                </div>
+
+                <div class="row mt-3">
+
+                    <div class="col-md-3">
+
+                        <label class="form-label">
+                            Typewriting (min)
+                        </label>
+
+                        <input
+                            type="number"
+                            min="0"
+                            name="typewriting"
+                            class="form-control"
+                            value="{% if record %}{{ record.typewriting }}{% endif %}"
+                        >
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ========================================== -->
+        <!-- Expense -->
+        <!-- ========================================== -->
+
+        <div class="card shadow-sm mb-4">
+
+            <div class="card-header bg-dark text-white">
+
+                <h4 class="mb-0">
+                    💰 Expense
+                </h4>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="row">
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            Expense (₹)
+                        </label>
+
+                        <input
+                            type="number"
+                            step="0.01"
+                            min="0"
+                            name="expense"
+                            class="form-control"
+                            value="{% if record %}{{ record.expense }}{% endif %}"
+                        >
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ========================================== -->
+        <!-- Save Button -->
+        <!-- ========================================== -->
+
+        <div class="text-center mb-5">
+
+            <button
+                type="submit"
+                class="btn btn-primary btn-lg px-5 py-3">
+
+                💾 Save Today's Record
+
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

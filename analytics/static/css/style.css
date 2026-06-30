@@ -1,0 +1,344 @@
+/* ===========================
+   Global
+=========================== */
+
+body{
+    background:#f5f7fb;
+    font-family:'Segoe UI',sans-serif;
+}
+
+.container-fluid{
+    padding:30px;
+}
+
+/* ===========================
+   Sidebar
+=========================== */
+
+.sidebar{
+
+    width:250px;
+
+    background:#1f2937;
+
+    min-height:100vh;
+
+    position:fixed;
+
+    left:0;
+
+    top:0;
+
+}
+
+.sidebar h2{
+
+    color:white;
+
+    text-align:center;
+
+    padding:30px 0;
+
+    font-weight:bold;
+
+}
+
+.sidebar a{
+
+    display:block;
+
+    color:#d1d5db;
+
+    text-decoration:none;
+
+    padding:16px 25px;
+
+    transition:.3s;
+
+    font-size:17px;
+
+}
+
+.sidebar a:hover{
+
+    background:#2563eb;
+
+    color:white;
+
+}
+
+/* ===========================
+   Main Area
+=========================== */
+
+.main{
+
+    margin-left:250px;
+
+    padding:35px;
+
+}
+
+/* ===========================
+   Cards
+=========================== */
+
+.card{
+
+    border:none;
+
+    border-radius:18px;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+}
+
+.card-header{
+
+    border-radius:18px 18px 0 0 !important;
+
+    font-weight:bold;
+
+}
+
+/* ===========================
+   Dashboard Cards
+=========================== */
+
+.display-3{
+
+    font-weight:bold;
+
+}
+
+.display-5{
+
+    font-weight:bold;
+
+}
+
+.score-card{
+
+    text-align:center;
+
+    padding:20px;
+
+}
+
+/* ===========================
+   Tables
+=========================== */
+
+.table{
+
+    margin-bottom:0;
+
+}
+
+.table th{
+
+    width:45%;
+
+}
+
+/* ===========================
+   Inputs
+=========================== */
+
+.form-control{
+
+    border-radius:10px;
+
+    padding:10px;
+
+}
+
+.form-control:focus{
+
+    box-shadow:none;
+
+    border-color:#2563eb;
+
+}
+
+/* ===========================
+   Labels
+=========================== */
+
+.form-label{
+
+    font-weight:600;
+
+}
+
+/* ===========================
+   Checkbox
+=========================== */
+
+.form-check{
+
+    padding-top:8px;
+
+    padding-bottom:8px;
+
+}
+
+.form-check-input{
+
+    width:20px;
+
+    height:20px;
+
+}
+
+.form-check-label{
+
+    margin-left:8px;
+
+}
+
+/* ===========================
+   Buttons
+=========================== */
+
+.btn{
+
+    border-radius:12px;
+
+    font-weight:600;
+
+}
+
+.btn-lg{
+
+    font-size:20px;
+
+}
+
+/* ===========================
+   Dashboard Buttons
+=========================== */
+
+.btn-primary{
+
+    background:#2563eb;
+
+}
+
+.btn-success{
+
+    background:#10b981;
+
+}
+
+.btn-warning{
+
+    color:white;
+
+}
+
+.btn-dark{
+
+    background:#111827;
+
+}
+
+/* ===========================
+   Section Spacing
+=========================== */
+
+.mb-4{
+
+    margin-bottom:28px !important;
+
+}
+
+/* ===========================
+   Responsive
+=========================== */
+
+@media(max-width:992px){
+
+.sidebar{
+
+    position:relative;
+
+    width:100%;
+
+    min-height:auto;
+
+}
+
+.main{
+
+    margin-left:0;
+
+}
+
+}
+
+/* ===========================
+   Nice Scrollbar
+=========================== */
+
+::-webkit-scrollbar{
+
+    width:8px;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:#9ca3af;
+
+    border-radius:10px;
+
+}
+
+/* ===========================
+   Card Hover
+=========================== */
+
+.card:hover{
+
+    transform:translateY(-3px);
+
+    transition:.25s;
+
+}
+
+/* ===========================
+   Save Button
+=========================== */
+
+button[type="submit"]{
+
+    width:300px;
+
+}
+
+/* ===========================
+   Header
+=========================== */
+
+h2{
+
+    font-weight:bold;
+
+}
+
+h4{
+
+    font-weight:bold;
+
+}
+
+/* ===========================
+   Summary
+=========================== */
+
+.text-muted{
+
+    color:#6b7280 !important;
+
+}
