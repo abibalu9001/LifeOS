@@ -9,20 +9,62 @@ from .scoring import update_scores
 
 
 # ==========================
+# Automatic Missing Days
+# ==========================
+
+def fill_missing_days():
+    """
+    Automatically create zero-value records
+    for missed days.
+
+    Today is never automatically filled.
+    """
+
+    # Find the earliest day recorded
+    first_record = DailyRecord.objects.order_by("date").first()
+
+    # No records exist yet
+    if not first_record:
+        return
+
+    today = timezone.localdate()
+    current_date = first_record.date
+
+    # Fill every missing day up to yesterday
+    while current_date < today:
+
+        DailyRecord.objects.get_or_create(
+            date=current_date
+        )
+
+        current_date += datetime.timedelta(days=1)
+
+
+# ==========================
 # Dashboard
 # ==========================
 
 def dashboard(request):
 
+    # Fill any missed days first
+    fill_missing_days()
+
     today = timezone.localdate()
 
-    record = DailyRecord.objects.filter(date=today).first()
+    # Get today's record
+    record = DailyRecord.objects.filter(
+        date=today
+    ).first()
 
     context = {
         "record": record
     }
 
-    return render(request, "analytics/dashboard.html", context)
+    return render(
+        request,
+        "analytics/dashboard.html",
+        context
+    )
 
 
 # ==========================
@@ -30,6 +72,9 @@ def dashboard(request):
 # ==========================
 
 def today(request):
+
+    # Fill missed days
+    fill_missing_days()
 
     today_date = timezone.localdate()
 
@@ -91,24 +136,30 @@ def today(request):
                 "newspaper": request.POST.get("newspaper") or 0,
                 "typewriting": request.POST.get("typewriting") or 0,
             }
-
         )
 
-        # Reload from DB so all fields are proper Python types (not raw POST strings)
+        # Reload from database
         record.refresh_from_db()
 
-        # Calculate and save all scores
+        # Calculate scores
         update_scores(record)
 
         return redirect("dashboard")
 
-    record = DailyRecord.objects.filter(date=today_date).first()
+    # GET request
+    record = DailyRecord.objects.filter(
+        date=today_date
+    ).first()
 
     context = {
         "record": record
     }
 
-    return render(request, "analytics/today.html", context)
+    return render(
+        request,
+        "analytics/today.html",
+        context
+    )
 
 
 # ==========================
@@ -116,6 +167,12 @@ def today(request):
 # ==========================
 
 def analytics(request):
+
+    fill_missing_days()
+
+    records = DailyRecord.objects.all().order_by("date")
+
+    # rest of your existing code...
 
     records     = DailyRecord.objects.all().order_by("date")
     records_list = list(records)
@@ -239,6 +296,12 @@ def analytics(request):
 # ==========================
 
 def history(request):
+
+    fill_missing_days()
+
+    records = DailyRecord.objects.all().order_by("-date")
+
+    # rest of your existing code...
 
     records = DailyRecord.objects.all().order_by("-date")
 
