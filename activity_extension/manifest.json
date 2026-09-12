@@ -1,0 +1,28 @@
+{
+    "manifest_version": 3,
+    "name": "LifeOS Activity Tracker",
+    "version": "1.0",
+    "description": "Tracks active time on coding websites for LifeOS.",
+    "permissions": [
+        "tabs",
+        "storage",
+        "idle",
+        "alarms"
+    ],
+    "host_permissions": [
+        "*://leetcode.com/*",
+        "*://www.hackerrank.com/*",
+        "*://skillrack.com/*",
+        "*://www.skillrack.com/*",
+        "*://codechef.com/*",
+        "*://www.codechef.com/*",
+        "*://codeforces.com/*",
+        "*://www.codeforces.com/*",
+
+        "http://127.0.0.1:8000/*",
+        "https://lifeos-3fl8.onrender.com/*"
+    ],
+    "background": {
+        "service_worker": "background.js"
+    }
+}

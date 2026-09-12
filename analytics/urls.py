@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from analytics import views
 
 urlpatterns = [
 
@@ -17,5 +18,7 @@ urlpatterns = [
 
     # Settings
     path("settings/", views.settings, name="settings"),
+
+    path("api/leetcode-activity/", views.update_leetcode_activity, name="update_leetcode_activity"),
 
 ]

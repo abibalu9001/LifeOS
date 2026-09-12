@@ -159,7 +159,7 @@ def study_score(record):
     )
 
     leetcode = arctan(
-        record.leetcode,
+        record.leetcode/60,
         LEETCODE_A
     )
 

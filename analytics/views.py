@@ -3,6 +3,8 @@ from django.utils import timezone
 from django.db.models import Avg, Max, Min
 import datetime
 import json
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 from .models import DailyRecord
 from .scoring import update_scores
@@ -103,7 +105,6 @@ def today(request):
 
                 "semester_study": request.POST.get("semester_study") or 0,
                 "project": request.POST.get("project") or 0,
-                "leetcode": request.POST.get("leetcode") or 0,
                 "self_study": request.POST.get("self_study") or 0,
 
                 # ---------------- Lifestyle ----------------
@@ -150,6 +151,9 @@ def today(request):
     record = DailyRecord.objects.filter(
         date=today_date
     ).first()
+
+    if record:
+        record.leetcode = record.leetcode / 60
 
     context = {
         "record": record
@@ -342,3 +346,41 @@ def history(request):
 def settings(request):
 
     return render(request, "analytics/settings.html")
+
+@csrf_exempt
+def update_leetcode_activity(request):
+    if request.method != "POST":
+        return JsonResponse({"error": "POST required"}, status=405)
+
+    try:
+        data = json.loads(request.body)
+
+        total_minutes = (
+            float(data.get("LC", 0)) +
+            float(data.get("HR", 0)) +
+            float(data.get("SR", 0)) +
+            float(data.get("CC", 0)) +
+            float(data.get("CF", 0))
+        )
+
+        today = timezone.localdate()
+
+        record, created = DailyRecord.objects.get_or_create(
+            date=today
+        )
+
+        record.leetcode = round(total_minutes, 1)
+        record.save()
+
+        update_scores(record)
+
+        return JsonResponse({
+            "success": True,
+            "leetcode": record.leetcode
+        })
+
+    except Exception as e:
+        return JsonResponse({
+            "success": False,
+            "error": str(e)
+        }, status=400)
