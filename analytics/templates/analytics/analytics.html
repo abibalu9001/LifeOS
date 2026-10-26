@@ -318,7 +318,7 @@
                         <!-- Sleep -->
                         <th class="border-start">Wake</th>
                         <th>Bed</th>
-                        <th>Sleep(h)</th>
+                        <th>Extra_sleep(h)</th>
                         <!-- Exercise -->
                         <th class="border-start">Yoga</th>
                         <th>Med.</th>
@@ -327,7 +327,7 @@
                         <!-- Study -->
                         <th class="border-start">Semester</th>
                         <th>Project</th>
-                        <th>LC</th>
+                        <th>Codeing</th>
                         <th>Self</th>
                         <!-- Health -->
                         <th class="border-start">Water</th>
@@ -373,7 +373,7 @@
                         <!-- Sleep -->
                         <td class="border-start">{{ r.wake_time|default:"—" }}</td>
                         <td>{{ r.bed_time|default:"—" }}</td>
-                        <td>{{ r.total_sleep }}</td>
+                        <td>{{ r.extra_sleep }}</td>
 
                         <!-- Exercise -->
                         <td class="border-start">{{ r.yoga }}</td>
@@ -402,7 +402,7 @@
                         <td>₹{{ r.expense }}</td>
 
                         <!-- Nutrition -->
-                        <td class="border-start text-center">{% if r.protein %}✅{% else %}❌{% endif %}</td>
+                        <td class="border-start text-center">{{ r.protein|default_if_none:"0" }}</td>
                         <td class="text-center">{% if r.milk %}✅{% else %}❌{% endif %}</td>
                         <td class="text-center">{% if r.fruits %}✅{% else %}❌{% endif %}</td>
                         <td class="text-center">{% if r.amla_juice %}✅{% else %}❌{% endif %}</td>
