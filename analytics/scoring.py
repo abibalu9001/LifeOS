@@ -58,41 +58,42 @@ def decimal_hour(t):
 
 def sleep_score(record):
 
+    # Wake time: Bell curve
     wake = bell(
         decimal_hour(record.wake_time),
         WAKE_TIME_IDEAL,
         WAKE_TIME_SIGMA
     )
 
+    # Bed time: Bell curve
     bed = bell(
         decimal_hour(record.bed_time),
         BED_TIME_IDEAL,
         BED_TIME_SIGMA
     )
 
-    sleep = bell(
-        record.total_sleep,
-        TOTAL_SLEEP_IDEAL,
-        TOTAL_SLEEP_SIGMA
+    # Daytime sleep: Reverse arctan
+    extra_sleep = reverse_arctan(
+        record.extra_sleep,
+        EXTRA_SLEEP_A
     )
 
+    # Combine the three scores
     score = weighted_average(
-
         [
             wake,
             bed,
-            sleep
+            extra_sleep
         ],
-
         [
             WEIGHTS["wake_time"],
             WEIGHTS["bed_time"],
-            WEIGHTS["total_sleep"]
+            WEIGHTS["extra_sleep"]
         ]
-
     )
 
     return round(score, 2)
+
 
 
 # ==========================================
@@ -219,7 +220,7 @@ def study_score(record):
 
 def nutrition_score(record):
 
-    protein = boolean(record.protein)
+    protein = arctan(record.protein, PROTEIN_A)
 
     milk = boolean(record.milk)
 

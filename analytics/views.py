@@ -92,7 +92,7 @@ def today(request):
 
                 "wake_time": request.POST.get("wake_time") or None,
                 "bed_time": request.POST.get("bed_time") or None,
-                "total_sleep": request.POST.get("total_sleep") or 0,
+                "extra_sleep": request.POST.get("extra_sleep") or 0,
 
                 # ---------------- Exercise ----------------
 
@@ -121,7 +121,7 @@ def today(request):
 
                 # ---------------- Nutrition ----------------
 
-                "protein": "protein" in request.POST,
+                "protein": request.POST.get("protein") or 0,
                 "milk": "milk" in request.POST,
                 "fruits": "fruits" in request.POST,
                 "amla_juice": "amla_juice" in request.POST,
@@ -153,7 +153,14 @@ def today(request):
     ).first()
 
     if record:
-        record.leetcode = record.leetcode / 60
+        record.leetcode_hours = record.leetcode / 60
+
+        record.total_study_hours = (
+            record.semester_study
+            + record.project
+            + record.leetcode_hours
+            + record.self_study
+        )
 
     context = {
         "record": record
@@ -222,7 +229,15 @@ def analytics(request):
             return {"label": label, "avg": _dec_to_str(avg_v),
                     "best_val": _dec_to_str(bv), "best_date": bd, "unit": unit}
         else:
-            pairs = [(float(getattr(r, field) or 0), r.date) for r in records_list]
+            pairs = [
+                (
+                    float(getattr(r, field) or 0) / 60
+                    if field == "leetcode"
+                    else float(getattr(r, field) or 0),
+                    r.date
+                )
+                for r in records_list
+            ]
             if not pairs:
                 return {"label": label, "avg": "--", "best_val": "--", "best_date": "--", "unit": unit}
             avg_v = round(sum(v for v, _ in pairs) / len(pairs), 2)
@@ -234,7 +249,7 @@ def analytics(request):
         # Sleep
         pstat("Wake Time",      "wake_time",      best="min", unit="",    is_time=True),
         pstat("Bed Time",       "bed_time",        best="min", unit="",    is_time=True),
-        pstat("Total Sleep",    "total_sleep",     best="max", unit="hrs"),
+        pstat("Extra Sleep",    "extra_sleep",     best="max", unit="hrs"),
         # Exercise
         pstat("Yoga",           "yoga",            best="max", unit="min"),
         pstat("Meditation",     "meditation",      best="max", unit="min"),
@@ -243,7 +258,7 @@ def analytics(request):
         # Study
         pstat("Semester Study", "semester_study",  best="max", unit="hrs"),
         pstat("Project",        "project",         best="max", unit="hrs"),
-        pstat("LeetCode",       "leetcode",        best="max", unit="hrs"),
+        pstat("LeetCode",       "leetcode",        best="max", unit="min"),
         pstat("Self Study",     "self_study",      best="max", unit="hrs"),
         # Health
         pstat("Water",          "water",           best="max", unit="L"),

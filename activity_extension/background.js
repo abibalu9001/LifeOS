@@ -7,7 +7,7 @@ const sites = {
 };
 
 // Use this while testing locally
-const API_URL = "http://127.0.0.1:8000/api/leetcode-activity/";
+const API_URL = "https://lifeos-3fl8.onrender.com/api/leetcode-activity/";
 
 let activeSite = null;
 let startTime = null;

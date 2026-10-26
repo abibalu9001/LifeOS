@@ -18,9 +18,8 @@ WAKE_TIME_SIGMA = 0.75
 BED_TIME_IDEAL = 21.0
 BED_TIME_SIGMA = 0.75
 
-# Total Sleep (hours)
-TOTAL_SLEEP_IDEAL = 7.75
-TOTAL_SLEEP_SIGMA = 1.0
+# Extra Sleep (hours)
+EXTRA_SLEEP_A = 0.5
 
 
 # =========================================
@@ -47,6 +46,7 @@ HEALTH_VIDEO_A = 1
 
 NEWSPAPER_A = 10
 TYPEWRITING_A = 10
+PROTEIN_A = 40
 
 
 # =========================================
@@ -110,7 +110,7 @@ WEIGHTS = {
 
     # ---------- Low ----------
 
-    "total_sleep": 1,
+    "extra_sleep": 1,
 
     "amla_juice": 1,
     "sabja_badam": 1,

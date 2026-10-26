@@ -12,7 +12,7 @@ class DailyRecord(models.Model):
     # =========================
     wake_time = models.TimeField(null=True, blank=True)
     bed_time = models.TimeField(null=True, blank=True)
-    total_sleep = models.FloatField(default=0)
+    extra_sleep = models.FloatField(default=0)
 
     # =========================
     # Exercise (minutes)
@@ -47,7 +47,7 @@ class DailyRecord(models.Model):
     # =========================
     # Nutrition
     # =========================
-    protein = models.BooleanField(default=False)
+    protein = models.FloatField(default=0)
     milk = models.BooleanField(default=False)
     fruits = models.BooleanField(default=False)
     amla_juice = models.BooleanField(default=False)
